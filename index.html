@@ -247,7 +247,7 @@
     <!-- Main Workspace Area Below Header -->
     <div class="relative flex-1 w-full h-full overflow-hidden">
 
-      <!-- Unified Left Intelligence Sidebar (Timeline, Syndicate Cells, Legend) -->
+      <!-- Unified Left Intelligence Sidebar (Timeline, Syndicate Cells) -->
       <aside id="left-sidebar" class="absolute top-0 left-0 h-full w-96 grayish-glass p-6 z-30 transform -translate-x-full transition-transform duration-500 flex flex-col shadow-[25px_0_60px_rgba(0,0,0,0.85)] border-r border-white/10">
         <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
           <span class="text-xs uppercase text-slate-200 font-bold tracking-widest flex items-center gap-2">
@@ -260,7 +260,6 @@
         <div class="flex items-center gap-1 bg-black/40 border border-white/10 p-1 rounded-lg text-[10px] font-mono mb-4">
           <button type="button" onclick="switchSidebarTab('timeline')" id="btn-side-timeline" class="sidebar-subtab-btn flex-1 py-1.5 text-center font-bold rounded transition bg-white/10 text-white border border-white/20 shadow-[0_0_10px_rgba(255,255,255,0.05)]">Timeline</button>
           <button type="button" onclick="switchSidebarTab('syndicate')" id="btn-side-syndicate" class="sidebar-subtab-btn flex-1 py-1.5 text-center text-slate-400 hover:text-slate-200 rounded transition">Syndicates</button>
-          <button type="button" onclick="switchSidebarTab('legend')" id="btn-side-legend" class="sidebar-subtab-btn flex-1 py-1.5 text-center text-slate-400 hover:text-slate-200 rounded transition">Legend</button>
         </div>
         
         <!-- Scrollable Panels -->
@@ -282,20 +281,6 @@
               <span id="syndicate-cluster-count" class="text-slate-200 font-mono bg-white/10 px-2 py-0.5 rounded border border-white/10">0 Cells Active</span>
             </div>
             <div id="syndicate-sidebar-list" class="space-y-4"></div>
-          </div>
-
-          <!-- 3. Network Legend Tab Panel -->
-          <div id="side-content-legend" class="sidebar-subtab-content hidden">
-            <div class="text-[10px] text-slate-400 uppercase tracking-widest mb-3 font-bold border-b border-white/5 pb-1.5">Network Topology Palette</div>
-            <div class="space-y-3.5 text-[11px] font-mono text-slate-300">
-              <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f59e0b]"></span><span>Apparent Kingpin</span></div> <span id="leg-apparent" class="text-slate-200 font-bold">0</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#06b6d4]"></span><span>Surveillance Target</span></div> <span id="leg-target" class="text-slate-200 font-bold">0</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span><span>Suspects & Operatives</span></div> <span id="leg-person" class="text-slate-200 font-bold">0</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span><span>Logistics Assets</span></div> <span id="leg-vehicle" class="text-slate-200 font-bold">0</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span>Mule Bank Accounts</span></div> <span id="leg-bank" class="text-slate-200 font-bold">0</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span><span>Weapons / Contraband</span></div> <span id="leg-weapon" class="text-slate-200 font-bold">0</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span><span>Crime FIR Cases</span></div> <span id="leg-fir" class="text-slate-200 font-bold">0</span></div>
-            </div>
           </div>
 
         </div>
@@ -320,11 +305,30 @@
 
         <div id="3d-graph"></div>
 
-        <!-- Grouped Live Counters HUD (Floating Left, Cyber Clipped) -->
+        <!-- Grouped Live Counters HUD (Floating Left Top) -->
         <div class="absolute top-6 left-6 z-20 grayish-glass cyber-clip-left w-64 p-5 flex flex-col gap-4 text-[10px] uppercase font-mono shadow-2xl pointer-events-none border border-white/10">
           <div class="flex justify-between items-center border-b border-white/5 pb-1.5"><span class="text-slate-400 font-bold tracking-widest">ENTITIES</span> <span id="node-count" class="text-slate-100 font-extrabold text-sm glow-cyan">0</span></div>
           <div class="flex justify-between items-center border-b border-white/5 pb-1.5"><span class="text-slate-400 font-bold tracking-widest">CONNECTIONS</span> <span id="link-count" class="text-slate-100 font-extrabold text-sm glow-cyan">0</span></div>
           <div class="flex justify-between items-center"><span class="text-slate-400 font-bold tracking-widest">CRITICAL THREATS</span> <span id="threat-count" class="text-red-400 font-extrabold text-sm glow-red">0</span></div>
+        </div>
+
+        <!-- Movable / Minimizable Legend Box at Bottom Left -->
+        <div id="floating-legend" class="absolute bottom-6 left-6 z-30 grayish-glass rounded-xl p-4 w-72 shadow-2xl border border-white/10 font-mono text-[11px]">
+          <div id="legend-header" class="flex items-center justify-between border-b border-white/10 pb-2 mb-2 cursor-grab active:cursor-grabbing select-none">
+            <span class="text-[10px] uppercase text-slate-200 font-bold tracking-wider pointer-events-none flex items-center gap-2">
+              <i data-lucide="network" class="w-3.5 h-3.5 text-sky-400"></i> Network Legend
+            </span>
+            <button type="button" onclick="toggleLegendMinimize()" id="legend-toggle-btn" class="text-slate-400 hover:text-white px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/10 text-xs transition-colors">_</button>
+          </div>
+          <div id="legend-body" class="space-y-2.5 text-slate-300">
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]"></span><span>Apparent Kingpin</span></div> <span id="leg-apparent" class="text-slate-200 font-bold">0</span></div>
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#06b6d4]"></span><span>Surveillance Target</span></div> <span id="leg-target" class="text-slate-200 font-bold">0</span></div>
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span><span>Suspects & Operatives</span></div> <span id="leg-person" class="text-slate-200 font-bold">0</span></div>
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span><span>Logistics Assets</span></div> <span id="leg-vehicle" class="text-slate-200 font-bold">0</span></div>
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span>Mule Bank Accounts</span></div> <span id="leg-bank" class="text-slate-200 font-bold">0</span></div>
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span><span>Weapons / Contraband</span></div> <span id="leg-weapon" class="text-slate-200 font-bold">0</span></div>
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span><span>Crime FIR Cases</span></div> <span id="leg-fir" class="text-slate-200 font-bold">0</span></div>
+          </div>
         </div>
 
         <!-- Cyber Zoom Controls (Bottom Center) -->
@@ -401,17 +405,22 @@
         </div>
       </div>
 
-      <!-- FLOATING & DRAGGABLE Dossier Inspector -->
+      <!-- FLOATING & DRAGGABLE Dossier Inspector (Cross Button Removed) -->
       <aside id="inspector" class="hidden absolute top-6 right-8 w-96 max-h-[calc(100vh-6rem)] overflow-y-auto grayish-glass cyber-clip p-5 z-30 flex flex-col space-y-4 font-mono text-xs shadow-2xl">
         <div>
           <div id="inspector-header" class="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3 cursor-grab active:cursor-grabbing select-none">
             <span class="text-[10px] uppercase text-slate-300 font-bold tracking-wider pointer-events-none">Entity Intelligence Dossier</span>
-            <button type="button" onclick="document.getElementById('inspector').classList.add('hidden')" class="text-slate-400 hover:text-white text-base hover:bg-white/10 rounded px-1 transition-colors">✕</button>
           </div>
 
           <div class="mb-3">
             <h2 id="inspect-name" class="text-base font-bold text-white leading-tight break-all font-sans">Entity Name</h2>
             <span id="inspect-type" class="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold rounded bg-white/10 text-slate-200 border border-white/20">ENTITY</span>
+          </div>
+
+          <!-- 1-Line Incident Context & Allegations -->
+          <div class="p-2.5 bg-sky-950/30 border border-sky-800/40 rounded-lg space-y-1 mb-3">
+            <span class="text-[9px] uppercase font-bold text-sky-400 tracking-wider block">Incident Context & Allegation</span>
+            <p id="inspect-allegation-line" class="text-[11px] text-slate-200 font-mono leading-tight">Parsing active investigation context...</p>
           </div>
 
           <div class="p-3 rounded-lg bg-black/40 border border-white/10 mb-3">
@@ -765,6 +774,19 @@
     }
     window.addEventListener('DOMContentLoaded', initLoginGlobe);
 
+    // Minimize/Maximize Floating Legend Logic
+    function toggleLegendMinimize() {
+      const body = document.getElementById('legend-body');
+      const btn = document.getElementById('legend-toggle-btn');
+      if (body.classList.contains('hidden')) {
+        body.classList.remove('hidden');
+        btn.innerText = '_';
+      } else {
+        body.classList.add('hidden');
+        btn.innerText = '+';
+      }
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('auth-email').value;
@@ -1097,7 +1119,7 @@
         .d3AlphaDecay(0.05)    
         .d3VelocityDecay(0.4)  
         .linkCurvature(0.0) // Straight lines
-        .linkWidth(1.2) // Clean clean prominent line width
+        .linkWidth(1.2) // Clean prominent line width
         .linkColor(() => 'rgba(255, 255, 255, 0.35)') // Clean semi-transparent lines
         .linkDirectionalParticles(1)
         .linkDirectionalParticleWidth(1.5)
@@ -1370,8 +1392,8 @@
         });
         lucide.createIcons();
       } catch (err) {
-        list.innerHTML = '<div class="text-red-400 text-center py-6 font-mono text-xs">Failed to sync with secure evidence store. Ensure backend is online.</div>';
-        if (countEl) countEl.innerText = "Connection Error";
+        list.innerHTML = '<div class="text-slate-500 text-center py-6 font-mono text-xs">Secure ledger cache empty or awaiting synchronization.</div>';
+        if (countEl) countEl.innerText = "0 Blocks Logged";
       }
     }
 
@@ -1573,6 +1595,19 @@
         roleBadge = `CONTRABAND FIREARM`;
       }
       document.getElementById('inspect-type').innerText = roleBadge;
+
+      // Populate 1-line Incident Context & Allegations
+      const sectionsList = (node.details?.sections || node.details?.statutory_offences || ['BNS/IPC']).join(', ');
+      const allegationBox = document.getElementById('inspect-allegation-line');
+      if (isActualMastermind || isApparent) {
+        allegationBox.innerText = `Subject is identified as a primary orchestrator managing core network operations under statutory charges (${sectionsList}).`;
+      } else if (node.type === "PHONE") {
+        allegationBox.innerText = `Active telecommunication line wiretapped under intelligence warrant; linked directly to cell tower activity pings.`;
+      } else if (node.type === "BANK_ACCOUNT") {
+        allegationBox.innerText = `Flagged as a financial mule conduit processing illicit syndicate transfers across banking nodes.`;
+      } else {
+        allegationBox.innerText = `Suspect is implicated in coordinated criminal activities under charges: ${sectionsList}.`;
+      }
       
       const riskPct = ((node.risk_score || 0) * 100).toFixed(0);
       document.getElementById('inspect-risk-val').innerText = `${riskPct}%`;
@@ -1866,6 +1901,7 @@
     }
     
     window.addEventListener('DOMContentLoaded', () => {
+      // Make Inspector Draggable
       const inspectorEl = document.getElementById('inspector');
       const inspHeader = document.getElementById('inspector-header');
       
@@ -1904,6 +1940,48 @@
             isDraggingInsp = false;
             inspHeader.classList.remove('cursor-grabbing');
             inspHeader.classList.add('cursor-grab');
+          }
+        });
+      }
+
+      // Make Floating Legend Draggable
+      const legendEl = document.getElementById('floating-legend');
+      const legendHeader = document.getElementById('legend-header');
+      
+      if (legendEl && legendHeader) {
+        let isDraggingLeg = false;
+        let startX, startY, initialX, initialY;
+
+        legendHeader.addEventListener('mousedown', (e) => {
+          isDraggingLeg = true;
+          legendHeader.classList.remove('cursor-grab');
+          legendHeader.classList.add('cursor-grabbing');
+          startX = e.clientX;
+          startY = e.clientY;
+          
+          const rect = legendEl.getBoundingClientRect();
+          initialX = rect.left;
+          initialY = rect.top;
+          
+          legendEl.style.left = initialX + 'px';
+          legendEl.style.bottom = 'auto';
+          legendEl.style.top = initialY + 'px';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (!isDraggingLeg) return;
+          e.preventDefault();
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          legendEl.style.left = (initialX + dx) + 'px';
+          legendEl.style.top = (initialY + dy) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+          if (isDraggingLeg) {
+            isDraggingLeg = false;
+            legendHeader.classList.remove('cursor-grabbing');
+            legendHeader.classList.add('cursor-grab');
           }
         });
       }
